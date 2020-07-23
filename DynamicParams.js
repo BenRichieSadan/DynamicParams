@@ -1,12 +1,11 @@
 /**
  * Dynamic Params logical file
  * Developed By: Ben Richie Sadan @ Sisense
- * Version : 1.1.0
- * Last Modified Date : 13-July-2020
+ * Version : 1.2.0
+ * Last Modified Date : 23-July-2020
  */
 
-let widgetName = 'DynamicParams';
-let dynamicParamsData;
+var dynamicParamsData;
 
 function initializeDynamicParams(widget, element){
   dynamicParamsData = {
@@ -29,14 +28,14 @@ function initializeDynamicParams(widget, element){
   registerWidgetsToBeforeQueryListener();
 
   if (dynamicParamsData.numOfValues > 0) {
-    for (let key in dynamicParamsData.fieldsForDynamicParams) {
+    for (var key in dynamicParamsData.fieldsForDynamicParams) {
       if (dynamicParamsData.fieldsForDynamicParams.hasOwnProperty(key)) {
-        let curParamVal = dynamicParamsData.fieldsForDynamicParams[key];
+        var curParamVal = dynamicParamsData.fieldsForDynamicParams[key];
 
-        let paramNameElm = document.createElement('h4');
+        var paramNameElm = document.createElement('h4');
         paramNameElm.innerHTML = curParamVal.title;
 
-        let paramInputElm = document.createElement('input');
+        var paramInputElm = document.createElement('input');
         paramInputElm.id = key + 'DynamicParamInput';
         paramInputElm.type = 'text';
         paramInputElm.value = curParamVal.value;
@@ -48,13 +47,13 @@ function initializeDynamicParams(widget, element){
       }
     }
 
-    let applyBtnElm = document.createElement('button');
+    var applyBtnElm = document.createElement('button');
     applyBtnElm.addEventListener('click', applyDynamicParams);
     applyBtnElm.className = 'btn';
     applyBtnElm.style.padding = '2px';
     applyBtnElm.innerText = "Apply";
 
-    let resetBtnElm = document.createElement('button');
+    var resetBtnElm = document.createElement('button');
     resetBtnElm.addEventListener('click', resetDynamicParams);
     resetBtnElm.className = 'btn';
     resetBtnElm.style.padding = '2px';
@@ -63,7 +62,7 @@ function initializeDynamicParams(widget, element){
 
     element[0].style.overflow = 'auto';
 
-    let brline = document.createElement('br');
+    var brline = document.createElement('br');
 
     element.append(brline);
 
@@ -73,8 +72,8 @@ function initializeDynamicParams(widget, element){
 }
 
 function registerWidgetsToBeforeQueryListener() {
-  for (let index = 0; index < prism.activeDashboard.widgets.length; index++) {
-    let curWidToListen = prism.activeDashboard.widgets.$$widgets[index];
+  for (var index = 0; index < prism.activeDashboard.widgets.length; index++) {
+    var curWidToListen = prism.activeDashboard.widgets.$$widgets[index];
 
     if (curWidToListen.$$events.beforequery.handlers.length == 0 || curWidToListen.$$events.beforequery.handlers.includes(handleWidgetBeforeQuerty) == false) {
       curWidToListen.on("beforequery", handleWidgetBeforeQuerty);
@@ -86,12 +85,12 @@ function handleWidgetBeforeQuerty(widget, query) {
   if (dynamicParamsData.overrideValsConfig == null) {
 
   } else {
-    for (let index = 0; index < query.query.metadata.length; index++) {
-      let curJaql = query.query.metadata[index].jaql;
+    for (var index = 0; index < query.query.metadata.length; index++) {
+      var curJaql = query.query.metadata[index].jaql;
       if (curJaql.context != null) {
-        for (let key in curJaql.context) {
+        for (var key in curJaql.context) {
           if (curJaql.context.hasOwnProperty(key)) {
-            let currContext = curJaql.context[key];
+            var currContext = curJaql.context[key];
 
             if (dynamicParamsData.overrideValsConfig.hasOwnProperty(currContext.dim)) {
               curJaql.formula = curJaql.formula.replace(
@@ -109,18 +108,18 @@ function handleWidgetBeforeQuerty(widget, query) {
 function applyDynamicParams(event) {
   dynamicParamsData.overrideValsConfig = {};
 
-  for (let key in dynamicParamsData.dynamicParamsInputs) {
+  for (var key in dynamicParamsData.dynamicParamsInputs) {
     if (dynamicParamsData.dynamicParamsInputs.hasOwnProperty(key)) {
-      let curParamVal = dynamicParamsData.dynamicParamsInputs[key];
+      var curParamVal = dynamicParamsData.dynamicParamsInputs[key];
 
       dynamicParamsData.overrideValsConfig[key] = curParamVal.value;
     }
   }
 
-  for (let index = 0; index < prism.activeDashboard.widgets.length; index++) {
-    let curWidToListen = prism.activeDashboard.widgets.$$widgets[index];
+  for (var index = 0; index < prism.activeDashboard.widgets.length; index++) {
+    var curWidToListen = prism.activeDashboard.widgets.$$widgets[index];
 
-    if (curWidToListen.type != widgetName) {
+    if (curWidToListen.type != 'DynamicParams') {
       curWidToListen.refresh();
     }
   }
@@ -129,10 +128,10 @@ function applyDynamicParams(event) {
 function resetDynamicParams(event) {
   dynamicParamsData.overrideValsConfig = null;
 
-  for (let index = 0; index < prism.activeDashboard.widgets.length; index++) {
-    let curWidToListen = prism.activeDashboard.widgets.$$widgets[index];
+  for (var index = 0; index < prism.activeDashboard.widgets.length; index++) {
+    var curWidToListen = prism.activeDashboard.widgets.$$widgets[index];
 
-    if (curWidToListen.type != widgetName) {
+    if (curWidToListen.type != 'DynamicParams') {
       curWidToListen.refresh();
     }
   }

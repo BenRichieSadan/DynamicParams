@@ -1,21 +1,19 @@
 /**
  * Dynamic Params main file
  * Developed By: Ben Richie Sadan @ Sisense
- * Version : 1.1.0
- * Last Modified Date : 13-July-2020
+ * Version : 1.2.0
+ * Last Modified Date : 23-July-2020
  */
 
-let widgetName = 'DynamicParams';
-
-prism.registerWidget(widgetName, {
-  name: widgetName,
-  family: widgetName,
-  title: widgetName,
-  iconSmall: "/plugins/" + widgetName + "/" + widgetName + "-icon-small.png",
-  styleEditorTemplate: "/plugins/" + widgetName + "/styler.html",
+prism.registerWidget('DynamicParams', {
+  name: 'DynamicParams',
+  family: 'DynamicParams',
+  title: 'DynamicParams',
+  iconSmall: "/plugins/" + 'DynamicParams' + "/" + 'DynamicParams' + "-icon-small.png",
+  styleEditorTemplate: "/plugins/" + 'DynamicParams' + "/styler.html",
   hideNoResults: true,
   directive: {
-    desktop: widgetName
+    desktop: 'DynamicParams'
   },
   style: {
     isRoundStrokes: true
